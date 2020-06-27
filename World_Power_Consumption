@@ -1,0 +1,44 @@
+import plotly as py
+import plotly.graph_objs as go
+import pandas as pd
+from plotly.offline import download_plotlyjs, init_notebook_mode,plot,iplot
+init_notebook_mode(connected=True) # here we initialize notebook mode
+
+import pandas as pd
+df=pd.read_csv("../input/World_Power_Consumption.txt") #This data set is available from various sources
+df.head()
+
+data = dict(type = 'choropleth',
+            locations = df["Country"],
+            locationmode="country names",
+            colorscale= "Viridis",
+            reversescale=True,
+            text= df["Text"],
+            z=df["Power Consumption KWH"],
+            colorbar = {'title':'KWH'})
+layout=dict(title = 'Power Consumption in KWH by State',
+              geo = dict(
+                         showlakes = True,
+                         lakecolor = 'rgb(85,173,240)')
+             )
+choromap=go.Figure(data,layout)
+iplot(choromap)
+
+# We can change the map style of the plot by changing projection parameter, it can be found various projection types in the plotly documentation
+# Below we can create much more beautiful version of geographical plot of the same data as follows:
+
+init_notebook_mode(connected=True)
+data = dict(type = 'choropleth',
+            locations = df["Country"],
+            locationmode="country names",
+            colorscale= "Viridis",
+            reversescale=True,
+            text= df["Text"],
+            z=df["Power Consumption KWH"],
+            colorbar = {'title':'KWH'})
+
+layout = dict(title = '2014 Power Consumption KWH',
+                geo = dict(showframe = False,projection = {'type':'stereographic'})
+             )
+choromap=go.Figure(data,layout)
+iplot(choromap)           
