@@ -1,0 +1,31 @@
+
+
+#Choropleth Map is a thematic map in which areas are shaded in proportion to a statististical variable that represents an aggregate summary of a geographic characteristics within each area, such as population density or GDP
+
+#After importing related libraries we initialize notebook mode and then create a dictionary data object and layout object
+import plotly as py
+import plotly.graph_objs as go
+import pandas as pd
+from plotly.offline import download_plotlyjs, init_notebook_mode,plot,iplot
+init_notebook_mode(connected=True) # here we initialize notebook mode
+
+#First we need to create a data dictionary because plotly only accepts certain types of data 
+#as it is listed in this link: https://images.plot.ly/plotly-documentation/images/python_cheat_sheet.pdf
+
+#This is the geographical plotting of '2011 US Agriculture Exports by State
+df=pd.read_csv("../input/ussimports.txt")
+df.head()
+data = dict(type = 'choropleth',
+            locations = df["code"],
+            locationmode = 'USA-states',
+            colorscale= 'Blackbody',
+            text= df["state"],
+            z=df["total exports"],
+            colorbar = {'title':'Millions USD'})
+layout=dict(title = '2011 US Agriculture Exports by State',
+              geo = dict(scope='usa',
+                         showlakes = True,
+                         lakecolor = 'rgb(85,173,240)')
+             )
+go.Figure(data,layout) # This will create a nice USA map including hovering information of the agricultural exports of each state in the USA
+            
