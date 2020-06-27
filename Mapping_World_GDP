@@ -1,0 +1,21 @@
+import plotly as py
+import plotly.graph_objs as go
+import pandas as pd
+from plotly.offline import download_plotlyjs, init_notebook_mode,plot,iplot
+init_notebook_mode(connected=True) # here we initialize notebook mode
+
+df2=pd.read_csv("C:/Users/ibrahim/Desktop/datasets/world_gdp.csv")
+df2.head()
+# here we create another geographical plot for world data
+data = dict(type = 'choropleth',
+            locations = df2["CODE"],
+            colorscale= 'Earth', # I use earth colorscale
+            text= df2["COUNTRY"],
+            z=df2["GDP (BILLIONS)"],
+            colorbar = {'title':'GDP in Billions USD'})
+layout=dict(title = '2014 World GDP in Billions USD by State',
+              geo = dict(scope='world',
+                         showlakes = True,
+                         lakecolor = 'rgb(85,173,240)')
+             )
+go.Figure(data3,layout3)             
